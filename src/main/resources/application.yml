@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.1.9:30008/eureka
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: pago
+          uri: lb://PAGO-DE-SERVICIOS
+          predicates:
+            - Path=/canales/**, /clientes/**, /pagos/**, /servicios/**, /suministros/**
+        - id: favorito
+          uri: lb://PAGO-DE-SERVICIOS-FAVORITOS
+          predicates:
+            - Path=/favoritos/**
+        - id: pag-fav-ux
+          uri: lb://PAGO-DE-SERVICIOS-UX
+          predicates:
+            - Path=/pagfav/**
